@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Клининговая Компания — Услуги Уборки</title>
+  <style>
+    :root {
+      --main-color: #1c1d1f;
+      --accent: #3ecf8e;
+      --accent-light: #e6f8f0;
+      --bg: #fafafa;
+      --bg-secondary: #fff;
+      --border: #e5e7eb;
+      --text: #1a1a1b;
+      --muted: #7a7a7a;
+      --radius: 16px;
+      --shadow: 0 2px 16px 0 rgba(60,72,88,0.08);
+      --transition: all .2s cubic-bezier(.4,0,.2,1);
+    }
+    html, body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 1.2rem 2rem;
+      background: var(--bg-secondary);
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    header .logo {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--main-color);
+      letter-spacing: -1px;
+      display: flex;
+      align-items: center;
+      gap: .6em;
+    }
+    header nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+    header nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 1rem;
+      padding: .4em .9em;
+      border-radius: var(--radius);
+      transition: var(--transition);
+    }
+    header nav a.active, header nav a:hover {
+      color: var(--main-color);
+      background: var(--accent-light);
+    }
+    header .nav-right {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .cart-indicator {
+      position: relative;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .cart-indicator span {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.8em;
+      padding: 2px 6px;
+      border-radius: 999px;
+      position: absolute;
+      right: -10px;
+      top: -10px;
+      min-width: 20px;
+      text-align: center;
+    }
+    main {
+      flex: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 2rem 1rem;
+      box-sizing: border-box;
+      animation: fadeIn 0.35s ease;
+    }
+    .section {
+      margin-bottom: 2.5rem;
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 1.4rem;
+      transition: var(--transition);
+    }
+    .welcome-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      align-items: center;
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .welcome-logo {
+      width: 80px;
+      height: 80px;
+      background: var(--accent-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: .5em;
+      box-shadow: 0 2px 16px 0 rgba(62,207,142,0.08);
+    }
+    .welcome-title {
+      font-size: 2.15rem;
+      font-weight: 700;
+      margin-bottom: .4em;
+    }
+    .welcome-sub {
+      font-size: 1.08rem;
+      color: var(--muted);
+      margin-bottom: .2em;
+    }
+    .benefits-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.1rem;
+      margin: 1.6em 0 .4em 0;
+      justify-content: center;
+    }
+    .benefit {
+      background: var(--accent-light);
+      color: var(--main-color);
+      border-radius: var(--radius);
+      padding: .9em 1.7em;
+      font-size: 0.95em;
+      display: flex;
+      align-items: center;
+      gap: 0.7em;
+    }
+    .reviews {
+      margin-top: 1.8em;
+      font-size: 1em;
+      color: var(--muted);
+    }
+    .review-card {
+      display: inline-block;
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: .9em 1.2em .7em 1.2em;
+      margin-right: 1.2em;
+      min-width: 160px;
+      box-shadow: var(--shadow);
+      margin-bottom: .7em;
+    }
+    .review-card:last-child {
+      margin-right: 0;
+    }
+    .review-author {
+      font-size: .96em;
+      color: var(--main-color);
+      font-weight: 700;
+      margin-top: .3em;
+    }
+    .services-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .8rem;
+      margin-bottom: 1.4em;
+      margin-top: .7em;
+    }
+    .filter-btn {
+      border: none;
+      background: var(--bg-secondary);
+      padding: .5em 1.2em;
+      border-radius: 2em;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--muted);
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+      font-size: 1em;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      color: #fff;
+      background: var(--accent);
+    }
+    .services-search {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      margin-top: .7em;
+      margin-bottom: 1.5rem;
+      box-sizing: border-box;
+    }
+    .services-search input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .8em 1.2em;
+      font-size: 1em;
+      outline: none;
+      margin-right: .7em;
+      transition: var(--transition);
+      background: var(--bg);
+    }
+    .service-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5em;
+    }
+    .service-card {
+      flex: 1 1 280px;
+      min-width: 238px;
+      max-width: 360px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2em 1em 1.8em 1.1em;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: .5em;
+      position: relative;
+      transition: var(--transition);
+    }
+    .service-title {
+      font-size: 1.13rem;
+      font-weight: 600;
+      margin-bottom: .14em;
+    }
+    .service-desc {
+      color: var(--muted);
+      font-size: 0.98em;
+      margin-bottom: .2em;
+      flex-grow: 1;
+    }
+    .service-price {
+      font-weight: 600;
+      color: var(--main-color);
+      font-size: 1.07em;
+      margin-bottom: .2em;
+    }
+    .service-more {
+      color: var(--accent);
+      font-size: 0.95em;
+      margin-bottom: .6em;
+      cursor: pointer;
+      text-decoration: underline;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+    .btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: .74em 1.2em;
+      font-weight: 600;
+      font-size: 1em;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+    .btn.secondary {
+      background: #fff;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+    }
+    .btn:active {
+      transform: scale(0.97);
+    }
+    .cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.2em;
+    }
+    .cart-table th, .cart-table td {
+      padding: 0.65em .7em;
+      text-align: left;
+    }
+    .cart-table th {
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .cart-table tr:not(:last-child) {
+      border-bottom: 1px solid var(--border);
+    }
+    .cart-quantity {
+      display: flex;
+      align-items: center;
+      gap: .3em;
+    }
+    .cart-qty-btn {
+      width: 2em;
+      height: 2em;
+      border-radius: 50%;
+      border: none;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cart-qty-btn:active { background: var(--accent); color: #fff; }
+    .cart-total-row {
+      font-weight: 600;
+      font-size: 1.12em;
+    }
+    .cart-action-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1.3em;
+      gap: 1em;
+    }
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1em;
+      text-align: center;
+      color: var(--main-color);
+    }
+    form {
+      max-width: 330px;
+      margin: 2em auto 0 auto;
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2em 1.5em 1.2em 1.5em;
+      display: flex;
+      flex-direction: column;
+      gap: 1.3em;
+    }
+    form label {
+      font-size: 1em;
+      font-weight: 500;
+      margin-bottom: .2em;
+      color: var(--main-color);
+    }
+    form input {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .7em 1em;
+      font-size: 1em;
+      margin-top: 0.18em;
+      outline: none;
+      background: var(--bg);
+      transition: var(--transition);
+    }
+    .form-error {
+      color: #c43326;
+      font-size: 0.99em;
+      margin-top: -0.65em;
+      margin-bottom: .5em;
+      min-height: 1em;
+    }
+    .orders-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2em;
+      margin-top: 1.4em;
+    }
+    .order-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-secondary);
+      box-shadow: var(--shadow);
+      padding: 1.1em 1em;
+      font-size: 0.97em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4em;
+    }
+    .order-items { color: var(--muted); font-size: 0.95em; }
+    .order-total { font-weight: 600; }
+    .order-status { color: var(--accent); font-size: .95em; }
+    .order-date { color: var(--muted); font-size: .92em; }
+    .confirm-message {
+      text-align: center;
+      font-size: 1.08em;
+      color: var(--main-color);
+      background: var(--accent-light);
+      border-radius: var(--radius);
+      padding: 2.7em 1em 2.7em 1em;
+    }
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity:0; transform: translateY(16px);}
+      to { opacity:1; transform: none;}
+    }
+    /* Mobile adaptation */
+    @media (max-width: 650px) {
+      main, .section { padding: 0.8em 0.15em;}
+      .service-cards { gap: 1em;}
+      .service-card { min-width:90vw; max-width:100%;}
+      header { padding: .85em 1em;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo" onclick="goToPage('home')" style="cursor:pointer;">
+      <span style="font-size:1.6em;">🧹</span> ЧистоPRO
+    </div>
+    <nav>
+      <a href="#" data-page="catalog" id="nav-catalog">Услуги</a>
+      <a href="#" data-page="cart" id="nav-cart">Корзина</a>
+      <a href="#" data-page="account" id="nav-account">Личный кабинет</a>
+    </nav>
+    <div class="nav-right">
+      <div class="cart-indicator" onclick="goToPage('cart')">
+        <span id="cart-count" style="display:none"></span>
+        <svg width="24" height="24" fill="none"><path d="M7 22c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm10 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-9.82-5l-.82-2H19c.81 0 1.52-.48 1.82-1.22l3.01-7.05A1.99 1.99 0 0021 3H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 14.37 5.48 16 7 16h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L7.93 13h10.67c.75 0 1.41-.41 1.75-1.03l3.58-7.16-1.74-.99L19 12H7.27z" fill="#3ecf8e"/></svg>
+      </div>
+      <button class="btn secondary" id="nav-login-btn" style="display:none;">Войти</button>
+      <button class="btn secondary" id="nav-logout-btn" style="display:none;">Выйти</button>
+    </div>
+  </header>
+  <main id="app"></main>
+
+  <script>
+  // ==== Mock Data Section ====
+  const mockServices = [
+    {
+      id: 1, 
+      name: "Уборка квартиры",
+      category: "apartments",
+      description: "Генеральная и поддерживающая уборка квартир любой площади — свежесть и порядок за считанные часы.",
+      price: 3000,
+      details: "Клининг всей квартиры с мойкой полов, кухонь, санузлов, мебели и бытовой техники. Используются гипоаллергенные средства.",
+      img: "🏠"
+    },
+    {
+      id: 2,
+      name: "Уборка офиса",
+      category: "offices",
+      description: "Поддержание чистоты в офисных помещениях, рабочих зонах, залах ожидания и переговорных.",
+      price: 4000,
+      details: "Уборка офисных пространств, санузлов, кухонь, рабочих столов. Можно согласовать ежедневное посещение.",
+      img: "🏢"
+    },
+    {
+      id: 3,
+      name: "Мойка окон",
+      category: "windows",
+      description: "Профессиональная мойка окон и витрин без разводов и царапин.",
+      price: 1700,
+      details: "Чистка стёкол, рам, подоконников специальными средствами, гарантия прозрачности.",
+      img: "🪟"
+    },
+    {
+      id: 4,
+      name: "Уборка после ремонта",
+      category: "afterrenovation",
+      description: "Удалим строительную пыль, мусор, пятна и остатки стройматериалов после ремонта.",
+      price: 6500,
+      details: "Глубокая уборка всех поверхностей, устранение следов краски, клея, цемента, вынос мусора.",
+      img: "🔨"
+    },
+    {
+      id: 5,
+      name: "Химчистка мебели",
+      category: "chemistry",
+      description: "Глубокая чистка мягкой мебели и ковров с удалением пятен и запахов.",
+      price: 2400,
+      details: "Использование профессиональных средств и техники для диванов, кресел, стульев и ковровых покрытий.",
+      img: "🛋️"
+    },
+    {
+      id: 6,
+      name: "Уборка коттеджей",
+      category: "cottages",
+      description: "Приведём в порядок большие коттеджи, дома и таунхаусы любой сложности.",
+      price: 6500,
+      details: "Уборка многоуровневых жилых помещений, веранд, балконов и лестниц. Любая площадь.",
+      img: "🏡"
+    }
+  ];
+  const mockReviews = [
+    { text: "Очень довольны! Качественная уборка, приятные сотрудники.", author: "Екатерина, Москва" },
+    { text: "Можно доверять: чисто, быстро, аккуратно.", author: "Михаил, СПб" },
+    { text: "После ремонта все поверхности идеально чистые, спасибо!", author: "Андрей, Казань" },
+  ];
+  // ==== Auth Stubs ====
+  function getUser() {
+    try {
+      return JSON.parse(localStorage.getItem("cp_user")) || null;
+    } catch { return null; }
+  }
+  function setUser(obj) {
+    localStorage.setItem("cp_user", JSON.stringify(obj));
+  }
+  function clearUser() {
+    localStorage.removeItem("cp_user");
+  }
+  function saveOrder(order) {
+    let data = [];
+    try {
+      data = JSON.parse(localStorage.getItem("cp_orders")) || [];
+    } catch {}
+    data.unshift(order);
+    localStorage.setItem("cp_orders", JSON.stringify(data));
+  }
+  function getOrders(email) {
+    try {
+      const arr = JSON.parse(localStorage.getItem("cp_orders")) || [];
+      return arr.filter(x => x?.user?.email === email);
+    } catch { return []; }
+  }
+  // ==== State ====
+  let state = {
+    page: "home",
+    filter: "all",
+    search: "",
+    cart: {},
+    serviceView: null,
+  };
+  // Load cart from localStorage
+  (function syncCart() {
+    try {
+      state.cart = JSON.parse(localStorage.getItem("cp_cart")) || {};
+    } catch { state.cart = {}; }
+  })();
+
+  // ==== Navigation ====
+  function goToPage(page, arg) {
+    state.page = page;
+    if (page === "service" && arg) state.serviceView = arg;
+    refresh();
+    if (window.scrollTo) window.scrollTo({top:0,behavior:"smooth"});
+  }
+  window.goToPage = goToPage;
+
+  // ==== Re-render Function ====
+  function refresh() {
+    // Navigation highlighting
+    Array.from(document.querySelectorAll('header nav a')).forEach(a => {
+      if ((a.dataset.page === state.page) || ((state.page==="service"||state.page==="confirm")&&a.dataset.page==="catalog"))
+        a.classList.add('active'); else a.classList.remove('active');
+    });
+    // Auth logic for buttons
+    const user = getUser();
+    document.getElementById('nav-login-btn').style.display = user ? "none" : "";
+    document.getElementById('nav-logout-btn').style.display = user ? "" : "none";
+    // Cart indicator update
+    const cartCount = Object.values(state.cart).reduce((s,v)=>s+v.qty,0);
+    const cartIndicator = document.getElementById('cart-count');
+    if (cartCount > 0) { cartIndicator.textContent = cartCount; cartIndicator.style.display = ""; }
+    else cartIndicator.style.display = "none";
+
+    // Render by page
+    let html = '';
+    switch(state.page) {
+      case "home":
+        html += renderHome();
+        break;
+      case "catalog":
+        html += renderCatalog();
+        break;
+      case "service":
+        html += renderService(state.serviceView);
+        break;
+      case "cart":
+        html += renderCart();
+        break;
+      case "login":
+        html += renderLogin();
+        break;
+      case "register":
+        html += renderRegister();
+        break;
+      case "account":
+        html += renderAccount();
+        break;
+      case "confirm":
+        html += renderConfirm();
+        break;
+      default:
+        html += renderHome();
+    }
+    document.getElementById('app').innerHTML = html;
+
+    addEventListeners();
+  }
+  // ==== Page Renders ====
+  function renderHome() {
+    return `
+    <section class="welcome-section section">
+      <div class="welcome-logo">🧹</div>
+      <div class="welcome-title">ЧистоPRO — клининговая компания</div>
+      <div class="welcome-sub">Наводим порядок дома и в офисе быстро, качественно и с заботой о клиентах!</div>
+      <div class="benefits-list">
+        <div class="benefit"><span>🌟</span>Гарантия чистоты</div>
+        <div class="benefit"><span>⏳</span>Чёткие сроки</div>
+        <div class="benefit"><span>🥇</span>Проверенные сотрудники</div>
+        <div class="benefit"><span>💎</span>Бережное отношение</div>
+      </div>
+      <button class="btn" onclick="goToPage('catalog')">Посмотреть услуги</button>
+      <div class="reviews">
+        ${mockReviews.map(rv => `
+          <div class="review-card">
+            <div>“${rv.text}”</div>
+            <div class="review-author">${rv.author}</div>
+          </div>
+        `).join('')}
+      </div>
+    </section>
+    `;
+  }
+
+  function renderCatalog() {
+    // Categories for filter
+    const cats = [
+      {key:"all", label:"Все"},
+      {key:"apartments", label:"Квартиры"},
+      {key:"offices", label:"Офисы"},
+      {key:"windows", label:"Мойка окон"},
+      {key:"afterrenovation", label:"После ремонта"},
+      {key:"chemistry", label:"Химчистка"},
+      {key:"cottages", label:"Коттеджи"}
+    ];
+    // Filtering
+    let filtered = mockServices.filter(s => (
+      (state.filter === "all" || s.category === state.filter)
+      && (state.search === "" || s.name.toLowerCase().includes(state.search.trim().toLowerCase()))
+    ));
+    return `
+    <div class="section">
+      <div class="page-title" style="margin-bottom:.6em;">Каталог услуг</div>
+      <div class="services-filter">
+        ${cats.map(cat =>
+          `<button class="filter-btn${cat.key===state.filter?' active':''}" onclick="onFilter('${cat.key}')">${cat.label}</button>`
+        ).join("")}
+      </div>
+      <div class="services-search">
+        <input type="text" id="service-search" placeholder="Поиск услуги..." value="${state.search?state.search:''}" />
+      </div>
+      <div class="service-cards">
+        ${filtered.map(service => `
+          <div class="service-card">
+            <div style="font-size:2.1em;">${service.img || "🧹"}</div>
+            <div class="service-title">${service.name}</div>
+            <div class="service-desc">${service.description}</div>
+            <div class="service-price">${service.price} ₽</div>
+            <button class="service-more" onclick="goToPage('service',${service.id})">Подробнее</button>
+            <button class="btn" onclick="addToCart(${service.id})">Добавить в корзину</button>
+          </div>
+        `).join('')}
+        ${filtered.length===0 ? `
+          <div style='color:var(--muted);padding:2em;text-align:center;width:100%'>Услуги не найдены</div>
+        `:''}
+      </div>
+    </div>`;
+  }
+
+  function renderService(id) {
+    const s = mockServices.find(svc => svc.id==id);
+    if (!s) return "<div class='section'>Услуга не найдена.</div>";
+    return `
+      <div class="section" style="max-width:400px;margin:2em auto 0 auto;">
+        <div style="font-size:2.6em;margin-bottom:.7em;text-align:center">${s.img||"🧹"}</div>
+        <div class="page-title" style="font-size:1.25em;margin-bottom:.3em">${s.name}</div>
+        <div class="service-desc" style='text-align:center;'>${s.description}</div>
+        <div style='margin:1.5em 0 1.1em 0; color:var(--main-color);'><b>Описание:</b><br>${s.details}</div>
+        <div class="service-price" style='text-align:center;font-size:1.25em'>${s.price} ₽</div>
+        <div style='display:flex;justify-content:center;gap:1.2em;margin-top:1.8em'>
+          <button class="btn" onclick="addToCart(${s.id});goToPage('cart')">В корзину</button>
+          <button class="btn secondary" onclick="goToPage('catalog')">Назад</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderCart() {
+    const user = getUser();
+    const cartEntries = Object.entries(state.cart);
+    let total = cartEntries.reduce((s,[id,v])=>{
+      const svc = mockServices.find(s=>s.id==id);
+      return s + (svc ? svc.price*v.qty : 0);
+    },0);
+    return `
+      <div class="section" style="max-width:640px;margin:2em auto 0 auto;">
+        <div class="page-title" style="font-size:1.43em;">Корзина услуг</div>
+        ${cartEntries.length === 0 ? `
+          <div style="color:var(--muted);padding:1.8em 0;text-align:center;">Корзина пуста.</div>
+          <button class="btn" onclick="goToPage('catalog')" style="width:100%;max-width:250px;margin:0 auto;display:block;">Вернуться к услугам</button>
+        ` : `
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Услуга</th>
+              <th>Кол-во</th>
+              <th>Цена</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${cartEntries.map(([id,v])=>{
+              const s = mockServices.find(svc=>svc.id==id);
+              if (!s) return "";
+              return `<tr>
+                  <td><b>${s.name}</b></td>
+                  <td>
+                    <div class="cart-quantity">
+                      <button class="cart-qty-btn" onclick="changeCartQty(${id},-1)">−</button>
+                      <span>${v.qty}</span>
+                      <button class="cart-qty-btn" onclick="changeCartQty(${id},1)">+</button>
+                    </div>
+                  </td>
+                  <td>${s.price * v.qty} ₽</td>
+                  <td>
+                    <button class="cart-qty-btn" style="color:#c43326" onclick="removeFromCart(${id})">&times;</button>
+                  </td>
+              </tr>`;
+            }).join('')}
+            <tr class="cart-total-row"><td colspan="2">Итого</td><td colspan="2">${total} ₽</td></tr>
+          </tbody>
+        </table>
+        <div class="cart-action-row">
+            <button class="btn secondary" onclick="emptyCart()">Очистить корзину</button>
+            <button class="btn" onclick="${user ? "onMakeOrder()" : "goToPage('login')"}">Оформить заказ</button>
+        </div>
+        `}
+      </div>
+    `;
+  }
+
+  function renderLogin() {
+    return `
+      <form id="loginForm" autocomplete="on">
+        <div class="page-title" style="font-size:1.2em;margin-bottom:.5em;">Вход</div>
+        <div style="font-size:.99em;text-align:center;margin-bottom:1.2em">Войдите, чтобы оформить заказ и посмотреть историю.</div>
+        <div>
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" required autocomplete="email" />
+        </div>
+        <div>
+          <label for="login-password">Пароль</label>
+          <input type="password" id="login-password" required autocomplete="current-password" />
+        </div>
+        <div class="form-error" id="login-error"></div>
+        <button class="btn" type="submit">Войти</button>
+        <button class="btn secondary" type="button" onclick="goToPage('register')">Регистрация</button>
+      </form>
+    `;
+  }
+
+  function renderRegister() {
+    return `
+      <form id="registerForm" autocomplete="on">
+        <div class="page-title" style="font-size:1.2em;margin-bottom:.5em">Регистрация</div>
+        <div>
+          <label for="reg-email">Email</label>
+          <input type="email" id="reg-email" required autocomplete="email" />
+        </div>
+        <div>
+          <label for="reg-password">Пароль</label>
+          <input type="password" id="reg-password" required autocomplete="new-password" />
+        </div>
+        <div>
+          <label for="reg-name">Имя</label>
+          <input type="text" id="reg-name" required autocomplete="name"/>
+        </div>
+        <div class="form-error" id="register-error"></div>
+        <button class="btn" type="submit">Зарегистрироваться</button>
+        <button class="btn secondary" type="button" onclick="goToPage('login')">Назад к входу</button>
+      </form>
+    `;
+  }
+
+  function renderAccount() {
+    const user = getUser();
+    if (!user) { goToPage("login"); return ""; }
+    const orders = getOrders(user.email);
+    return `
+      <div class="section" style="max-width:510px;margin:2em auto 0 auto">
+        <div class="page-title" style="font-size:1.23em;margin-bottom:.6em">Личный кабинет</div>
+        <div style="font-size:1.13em;"><b>${user.name || ""}</b></div>
+        <div style="font-size:0.98em;color:var(--muted);margin-bottom:.7em">${user.email}</div>
+        <button class="btn secondary" onclick="goToPage('cart')" style="margin-bottom:1.2em">Перейти к корзине</button>
+        <div>
+          <div style="font-size:1.08em;font-weight:600;margin-bottom:.3em">История заказов</div>
+          ${orders.length === 0 ? `<div style="color:var(--muted);margin-top:1.2em;">Пока нет заказов.</div>` : `
+            <div class="orders-list">
+              ${orders.map(order=>`
+                <div class="order-card">
+                  <div class="order-date">${order.date || ''}</div>
+                  <div class="order-items">${order.items.map(it=>`${it.name}&nbsp;&times;&nbsp;${it.qty}`).join(', ')}</div>
+                  <div class="order-total">Сумма: ${order.total} ₽</div>
+                  <div class="order-status">Статус: ${order.status ?? "Оформлен"}</div>
+                </div>
+              `).join('')}
+            </div>
+          `}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderConfirm() {
+    return `
+      <div class="section" style="max-width:440px;margin:3em auto 0 auto;">
+        <div class="confirm-message">
+          <div style="font-size:2.5em">✅</div>
+          <div style="font-size:1.25em;font-weight:600;margin-bottom:.5em">Ваш заказ принят!</div>
+          <div>Спасибо за обращение.<br>Менеджер свяжется с вами для подтверждения деталей и времени уборки!</div>
+          <button class="btn" style="margin-top:1.7em" onclick="goToPage('account')">В личный кабинет</button>
+          <button class="btn secondary" style="margin-top:1.7em" onclick="goToPage('catalog')">В каталог услуг</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // ==== UI Actions, Events, Validation ====
+  function onFilter(cat) {
+    state.filter = cat;
+    refresh();
+  }
+  function addToCart(id) {
+    if (!state.cart[id]) state.cart[id] = {qty: 1};
+    else state.cart[id].qty++;
+    localStorage.setItem("cp_cart", JSON.stringify(state.cart));
+    refresh();
+    // animate cart icon
+    let cartIco = document.querySelector('.cart-indicator');
+    if (cartIco) { cartIco.style.transform="scale(1.13)";
+      setTimeout(()=>{cartIco.style.transform="";},180);}
+  }
+  function changeCartQty(id, delta) {
+    if (!state.cart[id]) return;
+    state.cart[id].qty += delta;
+    if (state.cart[id].qty <= 0) delete state.cart[id];
+    localStorage.setItem("cp_cart", JSON.stringify(state.cart));
+    refresh();
+  }
+  function removeFromCart(id) {
+    delete state.cart[id];
+    localStorage.setItem("cp_cart", JSON.stringify(state.cart));
+    refresh();
+  }
+  function emptyCart() {
+    if (confirm("Удалить все услуги из корзины?")) {
+      state.cart = {};
+      localStorage.setItem("cp_cart", JSON.stringify(state.cart));
+      refresh();
+    }
+  }
+  function onMakeOrder() {
+    const user = getUser();
+    if (!user) { goToPage('login'); return; }
+    if (Object.values(state.cart).length === 0) return;
+    const items = Object.entries(state.cart).map(([id,info])=>{
+      let s = mockServices.find(q=>q.id==id);
+      return s ? {id,sid:s.id,name:s.name,qty: info.qty, price: s.price} : null;
+    }).filter(Boolean);
+    const total = items.reduce((s,x)=>s+x.price*x.qty,0);
+    // For demo, just save in localStorage. In prod, API call goes here!
+    saveOrder({
+      date: new Date().toLocaleString('ru-RU'),
+      items,
+      total,
+      status: "Оформлен",
+      user
+    });
+    state.cart = {};
+    localStorage.setItem("cp_cart", JSON.stringify(state.cart));
+    goToPage('confirm');
+  }
+  // Search service event
+  function addEventListeners() {
+    const sInput = document.getElementById('service-search');
+    if (sInput) {
+      sInput.oninput = e => {
+        state.search = sInput.value;
+        refresh();
+      };
+    }
+    // Login/Register forms
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+      loginForm.onsubmit = e => {
+        e.preventDefault();
+        doLogin();
+      }
+    }
+    const registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+      registerForm.onsubmit = e => {
+        e.preventDefault();
+        doRegister();
+      }
+    }
+    // Auth buttons
+    document.getElementById('nav-login-btn').onclick = () => goToPage('login');
+    document.getElementById('nav-logout-btn').onclick = () => {clearUser();refresh();};
+  }
+
+  // ==== Auth logic with form validation ====
+  function doLogin() {
+    const email = (document.getElementById('login-email').value || "").toLowerCase().trim();
+    const pass = document.getElementById('login-password').value;
+    // Get users db
+    let db = [];
+    try {
+      db = JSON.parse(localStorage.getItem("cp_db")) || [];
+    } catch {}
+    const u = db.find(x => x.email === email && x.password === pass);
+    const errorEl = document.getElementById('login-error');
+    if(!/^[^@]+@[^@]+\.[a-z]{2,}$/.test(email) || !pass) {
+      errorEl.textContent = "Заполните все поля корректно!";
+      return;
+    }
+    if (!u) {
+      errorEl.textContent = "Неверный email или пароль!";
+      return;
+    }
+    setUser(u);
+    goToPage('account');
+  }
+  function doRegister() {
+    const email = (document.getElementById('reg-email').value || "").toLowerCase().trim();
+    const pass = document.getElementById('reg-password').value;
+    const name = document.getElementById('reg-name').value.trim();
+    const errorEl = document.getElementById('register-error');
+    if (!/^[^@]+@[^@]+\.[a-z]{2,}$/.test(email)) {
+      errorEl.textContent = "Некорректный email.";
+      return;
+    }
+    if (!pass || pass.length<4) {
+      errorEl.textContent = "Пароль не менее 4 символов.";
+      return;
+    }
+    if (!name) {
+      errorEl.textContent = "Введите имя.";
+      return;
+    }
+    // Get/save in localStorage
+    let db = [];
+    try { db = JSON.parse(localStorage.getItem("cp_db")) || []; } catch {}
+    if(db.find(x=>x.email===email)) {
+      errorEl.textContent = "Пользователь с таким email уже существует!";
+      return;
+    }
+    db.push({email, password: pass, name});
+    localStorage.setItem("cp_db", JSON.stringify(db));
+    setUser({email, password: pass, name});
+    goToPage('account');
+  }
+
+  // ==== Start App ====
+  refresh();
+  </script>
+</body>
+</html>
